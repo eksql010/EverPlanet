@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public float horizontalAxis {  get; private set; }
+    public float horizontalAxis { get; private set; }
     public float verticalAxis { get; private set; }
 
     private void Update()
