@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using Unity.VectorGraphics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraOcclusionDetector : MonoBehaviour
 {
@@ -64,5 +67,27 @@ public class CameraOcclusionDetector : MonoBehaviour
         OcclusionFadeTarget target = collider.GetComponent<OcclusionFadeTarget>();
         detectCache.Add(collider, target);
         return target;
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += HandleSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= HandleSceneLoaded;
+    }
+
+    private void HandleSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+    {
+        ClearCollections();
+    }
+
+    private void ClearCollections()
+    {
+        detectCache.Clear();
+        curHits.Clear();
+        prevHits.Clear();
     }
 }
