@@ -909,6 +909,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 230860312991076117, guid: 88f2fd29f58b9734683512546acec310, type: 3}
+      propertyPath: m_LODs.Array.data[1].renderers.Array.data[0].renderer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1142291693386994115, guid: 88f2fd29f58b9734683512546acec310, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1046,6 +1050,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5777168012237853380, guid: ac8efb728f1fb9b4092c4df591c827ca, type: 3}
+      propertyPath: m_LODs.Array.data[1].renderers.Array.data[0].renderer
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5440194995934546347, guid: ac8efb728f1fb9b4092c4df591c827ca, type: 3}
@@ -1121,8 +1129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2944b70a83fef44cb063fa70bf3a760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OcclusionFadeTarget
-  fadeAlpha: 0.3
-  fadeSpeed: 8
+  settings: {fileID: 11400000, guid: c0d7bb0ce0d19fa4a92567bc0d243ff2, type: 2}
 --- !u!1 &1082396549 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7155140798900432468, guid: 88f2fd29f58b9734683512546acec310, type: 3}
@@ -1140,8 +1147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2944b70a83fef44cb063fa70bf3a760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OcclusionFadeTarget
-  fadeAlpha: 0.3
-  fadeSpeed: 8
+  settings: {fileID: 11400000, guid: c0d7bb0ce0d19fa4a92567bc0d243ff2, type: 2}
 --- !u!1 &1162651847 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8783306491908617939, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
@@ -1159,8 +1165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2944b70a83fef44cb063fa70bf3a760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OcclusionFadeTarget
-  fadeAlpha: 0.3
-  fadeSpeed: 8
+  settings: {fileID: 11400000, guid: c0d7bb0ce0d19fa4a92567bc0d243ff2, type: 2}
 --- !u!1 &1218493203 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7155140798900432468, guid: 88f2fd29f58b9734683512546acec310, type: 3}
@@ -1178,8 +1183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2944b70a83fef44cb063fa70bf3a760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OcclusionFadeTarget
-  fadeAlpha: 0.3
-  fadeSpeed: 8
+  settings: {fileID: 11400000, guid: c0d7bb0ce0d19fa4a92567bc0d243ff2, type: 2}
 --- !u!1001 &1573342188
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1273,8 +1277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2944b70a83fef44cb063fa70bf3a760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OcclusionFadeTarget
-  fadeAlpha: 0.3
-  fadeSpeed: 8
+  settings: {fileID: 11400000, guid: c0d7bb0ce0d19fa4a92567bc0d243ff2, type: 2}
 --- !u!1 &1741931110 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7155140798900432468, guid: 88f2fd29f58b9734683512546acec310, type: 3}
@@ -1292,8 +1295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2944b70a83fef44cb063fa70bf3a760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OcclusionFadeTarget
-  fadeAlpha: 0.3
-  fadeSpeed: 8
+  settings: {fileID: 11400000, guid: c0d7bb0ce0d19fa4a92567bc0d243ff2, type: 2}
 --- !u!1001 &2117978068
 PrefabInstance:
   m_ObjectHideFlags: 0

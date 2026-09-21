@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class OcclusionFadeTarget : MonoBehaviour
 {
-    [SerializeField] private float fadeAlpha = 0.3f;
-    [SerializeField] private float fadeSpeed = 8f;
+    [SerializeField] private OcclusionFadeSettings settings;
 
     private Renderer renderer;
     private float curAlpha = 1f;
@@ -19,19 +18,12 @@ public class OcclusionFadeTarget : MonoBehaviour
         if (Mathf.Approximately(curAlpha, targetAlpha))
             return;
 
-        curAlpha = Mathf.MoveTowards(curAlpha, targetAlpha, fadeSpeed * Time.deltaTime);
+        curAlpha = Mathf.MoveTowards(curAlpha, targetAlpha, settings.FadeSpeed * Time.deltaTime);
         ApplyAlpha(curAlpha);
     }
 
-    public void FadeOut()
-    {
-        targetAlpha = fadeAlpha;
-    }
-
-    public void FadeIn()
-    {
-        targetAlpha = 1f;
-    }
+    public void FadeOut() => targetAlpha = settings.FadeAlpha;
+    public void FadeIn() => targetAlpha = 1f;
 
     private void ApplyAlpha(float alpha)
     {
