@@ -1,5 +1,6 @@
 using NUnit.Framework.Constraints;
 using NUnit.Framework.Interfaces;
+using System;
 using System.Collections.Generic;
 using Unity.AppUI.UI;
 using UnityEngine;
@@ -7,7 +8,11 @@ using UnityEngine;
 public class QuestManager : MonoBehaviour
 {
     public static QuestManager instance { get; private set; }
-    
+
+    public event Action<QuestData> OnQuestAccepted;
+    public event Action<QuestData> OnObjectiveComplete;
+    public event Action<QuestData> OnQuestCompleted;
+
     private Dictionary<string, QuestProgress> quests = new Dictionary<string, QuestProgress>();
 
     private void Awake()
@@ -23,6 +28,8 @@ public class QuestManager : MonoBehaviour
     public void AcceptQuest(QuestData questData)
     {
         quests[questData.questId] = new QuestProgress { data = questData, state = QuestState.InProgress };
+        OnQuestAccepted?.Invoke(questData);
+
         Debug.Log("퀘스트 수락 : " + questData.title);
     }
 
@@ -32,6 +39,8 @@ public class QuestManager : MonoBehaviour
             return;
 
         questProgress.state = QuestState.ObjectiveComplete;
+        OnObjectiveComplete?.Invoke(questProgress.data);
+
         Debug.Log("퀘스트 목표 달성 : " + questProgress.data.title);
     }
 
@@ -41,6 +50,8 @@ public class QuestManager : MonoBehaviour
             return;
 
         questProgress.state = QuestState.Completed;
+        OnQuestCompleted?.Invoke(questProgress.data);
+
         Debug.Log("퀘스트 완료 : " + questProgress.data.title);
         Debug.Log("퀘스트 보상 : " + "+경험치(" + questProgress.data.rewardExp + ")" + " +마블(" + questProgress.data.rewardMoney + ")");
     }

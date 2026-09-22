@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: TestQuest
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
   questId: TestQuest
-  title: TestQuest Title
-  description: "\uD14C\uC2A4\uD2B8 \uD018\uC2A4\uD2B8\uC785\uB2C8\uB2E4"
+  title: "\uC624\uB298\uB3C4 \uD55C \uAC78\uC74C \uC131\uC7A5"
+  description: "\uC0AC\uB78C\uC774 \uC131\uC7A5\uD558\uAE30 \uC704\uD574\uC11C\uB294
+    \uC0C8\uB85C\uC6B4 \uB3C4\uC804\uACFC \uACBD\uD5D8\uC774 \uD544\uC694\uD569\uB2C8\uB2E4."
   rewardExp: 100
   rewardMoney: 5000
