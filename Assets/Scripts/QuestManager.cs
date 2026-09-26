@@ -14,6 +14,7 @@ public class QuestManager : MonoBehaviour
     public event Action<QuestData> OnQuestCompleted;
 
     private Dictionary<string, QuestProgress> quests = new Dictionary<string, QuestProgress>();
+    private Dictionary<string, Transform> objectiveLocations = new();   // 퀘스트 상호작용 오브젝트 위치 알 때 사용
 
     private void Awake()
     {
@@ -29,6 +30,7 @@ public class QuestManager : MonoBehaviour
     {
         quests[questData.questId] = new QuestProgress { data = questData, state = QuestState.InProgress };
         OnQuestAccepted?.Invoke(questData);
+        GameEvents.QuestAccepted(questData);
 
         Debug.Log("퀘스트 수락 : " + questData.title);
     }
@@ -40,6 +42,7 @@ public class QuestManager : MonoBehaviour
 
         questProgress.state = QuestState.ObjectiveComplete;
         OnObjectiveComplete?.Invoke(questProgress.data);
+        GameEvents.QuestObjectiveAchieved(questId);
 
         Debug.Log("퀘스트 목표 달성 : " + questProgress.data.title);
     }
@@ -54,5 +57,15 @@ public class QuestManager : MonoBehaviour
 
         Debug.Log("퀘스트 완료 : " + questProgress.data.title);
         Debug.Log("퀘스트 보상 : " + "+경험치(" + questProgress.data.rewardExp + ")" + " +마블(" + questProgress.data.rewardMoney + ")");
+    }
+
+    public void RegisterObjectiveLocation(string questId, Transform location)
+    {
+        objectiveLocations[questId] = location;
+    }
+
+    public Transform GetObjectiveLocation(string questId)
+    {
+        return objectiveLocations.TryGetValue(questId, out var transform) ? transform : null;
     }
 }
