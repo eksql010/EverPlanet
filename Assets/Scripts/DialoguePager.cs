@@ -34,7 +34,7 @@ public class DialoguePager : MonoBehaviour
     public void Prev()
     {
         if (pageIndex > 0)
-            ShowPage(pageIndex - 1);
+            ShowPage(pageIndex - 1, false);
     }
 
     public void Skip()
@@ -42,18 +42,31 @@ public class DialoguePager : MonoBehaviour
         if (isLastPage)
             return;
 
-        ShowPage(pages.Length - 1);
+        ShowPage(pages.Length - 1, false);
     }
 
-    private void ShowPage(int index)
+    private void ShowPage(int index, bool useTyping = true)
     {
         pageIndex = index;
 
         if (typingCoroutine != null)
+        {
             StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
 
         dialogueText.text = pages[pageIndex];
-        typingCoroutine = StartCoroutine(TypeText());
+        
+        if (useTyping)
+        {
+            typingCoroutine = StartCoroutine(TypeText());
+        }
+        else
+        {
+            dialogueText.ForceMeshUpdate();
+            dialogueText.maxVisibleCharacters = int.MaxValue;
+            isTyping = false;
+        }
     }
 
     private IEnumerator TypeText()
@@ -75,7 +88,7 @@ public class DialoguePager : MonoBehaviour
     private void CompleteTyping()
     {
         StopCoroutine(typingCoroutine);
-        dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
+        dialogueText.maxVisibleCharacters = int.MaxValue;
         isTyping = false;
         typingCoroutine = null;
     }

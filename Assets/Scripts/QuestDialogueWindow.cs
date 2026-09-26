@@ -1,21 +1,27 @@
+using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestDialogueWindow : MonoBehaviour
 {
-    [SerializeField] private DialoguePager pager;
+    [SerializeField] private DialoguePager greetingPager;
+    [SerializeField] private GameObject greetingGroup;
+    [SerializeField] private TMP_Text greetingText;
+    [SerializeField] private Transform questListParent;
+    [SerializeField] private GameObject questLinkButton;
 
-    public void Open()
+    [SerializeField] private DialoguePager questPager;
+    [SerializeField] private GameObject pageGroup;
+
+    private NPC currentNpc;
+
+    public void Open(NPC npc)
     {
+        currentNpc = npc;
         gameObject.SetActive(true);
         GameEvents.SetPause(true);
-
-        pager.Play(
-            new[] { 
-                "첫 번째 페이지입니다. 타이핑 이펙트를 위해 조금만 더 길게 써볼까 합니다.",
-                "두 번째 페이지입니다.\n줄바꿈도 됩니다.\n줄바꿈도 됩니다.\n줄바꿈도 됩니다.", 
-                "마지막 페이지입니다. 마지막 페이지에는 다음 버튼과 건너뛰기 버튼이 비활성화 되어야 합니다. 타이핑 이펙트 구현 후에 적용해볼 계획입니다. 얼른 만들어봅시다. ^^" 
-            }
-            );
+        ShowGreeting();
     }
 
     public void Close()
@@ -24,7 +30,80 @@ public class QuestDialogueWindow : MonoBehaviour
         GameEvents.SetPause(false);
     }
 
-    public void OnClickNext() => pager.Next();
-    public void OnClickPrev() => pager.Prev();
-    public void OnClickSkip() => pager.Skip();
+    public void OnClickNext() => questPager.Next();
+    public void OnClickPrev() => questPager.Prev();
+    public void OnClickSkip() => questPager.Skip();
+
+    private void ShowGreeting()
+    {
+        pageGroup.SetActive(false);
+        greetingGroup.SetActive(true);
+
+        greetingPager.Play(new[] { currentNpc.GreetingDialogue });
+
+        foreach (Transform child in questListParent)
+            Destroy(child.gameObject);
+
+        var quests = currentNpc.GetVisibleQuests();
+
+        for (int i = 0; i < quests.Count; ++i)
+        {
+            QuestData questdata = quests[i];
+            QuestState state = QuestManager.instance.GetState(questdata.questId);
+
+            var newButton = Instantiate(questLinkButton, questListParent);
+            var label = newButton.GetComponentInChildren<TMP_Text>();
+            label.text = $"{i + 1}. {GetStateLabel(state)} {questdata.title}";
+            label.color = GetStateColor(state);
+
+            newButton.GetComponent<Button>().onClick.AddListener(() => OnQuestLinkClicked(questdata));
+        }
+    }
+
+    private void OnQuestLinkClicked(QuestData quest)
+    {
+        greetingGroup.SetActive(false);
+        pageGroup.SetActive(true);
+        questPager.Play(quest.startDialogue);
+    }
+
+    private string GetStateLabel(QuestState state)
+    {
+        string curState = "";
+
+        switch (state)
+        {
+            case QuestState.NotStarted:
+                curState = "[시작]";
+                break;
+            case QuestState.InProgress:
+                curState = "[진행]";
+                break;
+            case QuestState.ObjectiveComplete:
+                curState = "[완료]";
+                break;
+        }
+
+        return curState;
+    }
+
+    private Color GetStateColor(QuestState state)
+    {
+        Color color = Color.magenta;
+
+        switch (state)
+        {
+            case QuestState.NotStarted:
+                color = Color.green;
+                break;
+            case QuestState.InProgress:
+                color = Color.white;
+                break;
+            case QuestState.ObjectiveComplete:
+                color = Color.yellow;
+                break;
+        }
+
+        return color;
+    }
 }
