@@ -2069,6 +2069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialoguePager
   dialogueText: {fileID: 21183085}
+  typingInterval: 0.03
 --- !u!224 &956290112
 RectTransform:
   m_ObjectHideFlags: 0
