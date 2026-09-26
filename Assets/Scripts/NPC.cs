@@ -12,15 +12,6 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        //  QuestState state = QuestManager.instance.GetState(quest.questId);
-        //  
-        //  if (state == QuestState.NotStarted)
-        //      QuestManager.instance.AcceptQuest(quest);
-        //  else if (state == QuestState.ObjectiveComplete)
-        //      QuestManager.instance.CompleteQuest(quest.questId);
-        //  else
-        //      Debug.Log("현재 퀘스트 상태 : " + state.ToString());
-
         dialogueWindow.Open(this);
     }
 
@@ -30,7 +21,7 @@ public class NPC : MonoBehaviour, IInteractable
 
         foreach (var quest in startQuests)
         {
-            if (QuestManager.instance.GetState(quest.questId) == QuestState.NotStarted)
+            if (QuestManager.instance.GetState(quest.questId) != QuestState.Completed)
                 result.Add(quest);
         }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -10,13 +11,20 @@ public class DialoguePager : MonoBehaviour
     private string[] pages;
     private int pageIndex;
     private Coroutine typingCoroutine;
-    private bool isTyping;
-    private bool isLastPage => pageIndex == pages.Length - 1;
+    private Action OnEnd;
 
-    public void Play(string[] newPages)
+    public bool isTyping;
+    public bool isLastPage => pageIndex == pages.Length - 1;
+
+    public void Play(string[] newPages, Action onEndCallback, bool isInfoPage = false)
     {
         pages = newPages;
-        ShowPage(0);
+        OnEnd = onEndCallback;
+
+        if (isInfoPage)
+            ShowPage(pages.Length - 1, false);
+        else
+            ShowPage(0);
     }
 
     public void Next()
@@ -29,6 +37,8 @@ public class DialoguePager : MonoBehaviour
 
         if (!isLastPage)
             ShowPage(pageIndex + 1);
+        else
+            OnEnd?.Invoke();
     }
 
     public void Prev()
@@ -39,10 +49,8 @@ public class DialoguePager : MonoBehaviour
 
     public void Skip()
     {
-        if (isLastPage)
-            return;
-
         ShowPage(pages.Length - 1, false);
+        OnEnd?.Invoke();
     }
 
     private void ShowPage(int index, bool useTyping = true)
