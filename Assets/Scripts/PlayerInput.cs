@@ -5,6 +5,7 @@ public class PlayerInput : MonoBehaviour
     public float horizontalAxis { get; private set; }
     public float verticalAxis { get; private set; }
     public bool isInteractPressed { get; private set; }
+    public bool isInteractHeld { get; private set; }
 
     private bool isPause;
 
@@ -25,11 +26,13 @@ public class PlayerInput : MonoBehaviour
         if (isPause)
         {
             isInteractPressed = false;
+            isInteractHeld = false;
             return;
         }
 
         horizontalAxis = Input.GetAxisRaw("Horizontal");
         verticalAxis = Input.GetAxisRaw("Vertical");
         isInteractPressed = Input.GetButtonDown("Interact");
+        isInteractHeld = Input.GetButton("Interact");
     }
 }

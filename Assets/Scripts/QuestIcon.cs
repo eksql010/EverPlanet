@@ -2,29 +2,30 @@ using UnityEngine;
 
 public class QuestIcon : MonoBehaviour
 {
-    [SerializeField] private QuestData quest;
     [SerializeField] private GameObject questNotStartedIcon;
     [SerializeField] private GameObject questCompleteIcon;
 
     private Camera camera;
+    private NPC npc;
 
     private void Start()
     {
         camera = Camera.main;
-        UpdateIcon(QuestManager.instance.GetState(quest.questId));
+        npc = GetComponentInParent<NPC>();
+        UpdateIcon();
 
         // 이벤트 등록
-        QuestManager.instance.OnQuestAccepted += HandleQuestAccepted;
-        QuestManager.instance.OnObjectiveComplete += HandleObjectiveComplete;
-        QuestManager.instance.OnQuestCompleted += HandleQuestCompleted;
+        QuestManager.instance.OnQuestAccepted += HandleQuestChanged;
+        QuestManager.instance.OnObjectiveComplete += HandleQuestChanged;
+        QuestManager.instance.OnQuestCompleted += HandleQuestChanged;
     }
 
     private void OnDestroy()
     {
         // 이벤트 해제
-        QuestManager.instance.OnQuestAccepted -= HandleQuestAccepted;
-        QuestManager.instance.OnObjectiveComplete -= HandleObjectiveComplete;
-        QuestManager.instance.OnQuestCompleted -= HandleQuestCompleted;
+        QuestManager.instance.OnQuestAccepted -= HandleQuestChanged;
+        QuestManager.instance.OnObjectiveComplete -= HandleQuestChanged;
+        QuestManager.instance.OnQuestCompleted -= HandleQuestChanged;
     }
 
     private void LateUpdate()
@@ -33,27 +34,32 @@ public class QuestIcon : MonoBehaviour
         //  transform.forward = camera.transform.forward;
     }
 
-    private void HandleQuestAccepted(QuestData questData)
-    {
-        if (questData.questId == quest.questId)
-            UpdateIcon(QuestState.InProgress);
-    }
+    private void HandleQuestChanged(QuestData questData) => UpdateIcon();
 
-    private void HandleObjectiveComplete(QuestData questData)
+    private void UpdateIcon()
     {
-        if (questData.questId == quest.questId)
-            UpdateIcon(QuestState.ObjectiveComplete);
-    }
+        bool hasNotStarted = false;
+        bool hasComplete = false;
 
-    private void HandleQuestCompleted(QuestData questData)
-    {
-        if (questData.questId == quest.questId)
-            UpdateIcon(QuestState.Completed);
-    }
+        foreach (var quest in npc.GiveQuests)
+        {
+            if (QuestManager.instance.GetState(quest.questId) == QuestState.NotStarted)
+            {
+                hasNotStarted = true;
+                break;
+            }
+        }
 
-    private void UpdateIcon(QuestState state)
-    {
-        questNotStartedIcon.SetActive(state == QuestState.NotStarted);
-        questCompleteIcon.SetActive(state == QuestState.ObjectiveComplete);
+        foreach (var quest in npc.ReceiveQuests)
+        {
+            if (QuestManager.instance.GetState(quest.questId) == QuestState.ObjectiveComplete)
+            {
+                hasComplete = true;
+                break;
+            }
+        }
+
+        questCompleteIcon.SetActive(hasComplete);
+        questNotStartedIcon.SetActive(!hasComplete && hasNotStarted);
     }
 }
